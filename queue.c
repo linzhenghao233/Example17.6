@@ -45,3 +45,35 @@ bool EnQueue(Item item, Queue* pq) {
 
 	return true;
 }
+
+bool DeQueue(Item* pitem, Queue* pq) {
+	Node* pt;
+
+	if (QueueIsEmpty(pq))
+		return false;
+	CopyToItem(pq->front, pitem);
+	pt = pq->front;
+	pq->front = pq->front->next;
+	free(pt);
+	pq->items--;
+	if (pq->items == 0)
+		pq->rear = NULL;
+
+	return true;
+}
+
+/* 清空队列 */
+void EmptyTheQueue(Queue* pq) {
+	Item dummy;
+	while (!QueueIsEmpty(pq))
+		DeQueue(&dummy, pq);
+}
+
+/* 局部函数 */
+static void CopyToNode(Item item, Node* pn) {
+	pn->item = item;
+}
+
+static void CopyToItem(Node* pn, Item* pi) {
+	*pi = pn->item;
+}
